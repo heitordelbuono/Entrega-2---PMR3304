@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% extends 'base.html' %}
+
+{% block title %}
+Lista de posts
+{% endblock title %}
+
+{% block content %}
+<h1><i>Férias, cadê você?!</i></h1>
+<p>A Página para quem está cansado...</p>
+<p>
+    <a href="{% url 'post_create' %}">Criar Novo Post</a>
+</p>
+<section>
+    {% for post in post_list %}
+    <article>
+        <p>{{ post.titulo }},
+        Postado em: {{ post.data_postagem|date:"d/m/Y" }}</p>
+        <a href="{% url 'post_detail' post.pk %}">Ver mais</a>
+    </article>
+    {% endfor %}
+</section>
+{% endblock content %}

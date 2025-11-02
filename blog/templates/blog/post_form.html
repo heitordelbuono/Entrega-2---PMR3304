@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {% if post %}
+    Editar Post: {{ post.titulo }}
+  {% else %}
+    Criar Novo Post
+  {% endif %}
+{% endblock title %}
+
+{% block content %}
+  {% if post %}
+    <h1>Editar Post</h1>
+  {% else %}
+    <h1>Criar Novo Post</h1>
+  {% endif %}
+
+  <form method="POST" action="">
+    
+    {% csrf_token %}
+    
+    <div>
+      <label for="titulo">Título:</label><br>
+      <input type"text" id="titulo" name="titulo" value="{{ post.titulo|default:'' }}" style="width: 50%;">
+    </div>
+    
+    <br>
+    
+    <div>
+      <label for="conteudo">Conteúdo:</label><br>
+      <textarea id="conteudo" name="conteudo" rows="10" style="width: 80%;">{{ post.conteudo|default:'' }}</textarea>
+    </div>
+    
+    <br>
+    
+    <button type="submit">Salvar Post</button>
+  </form>
+
+  <br>
+  <a href="{% url 'post_list' %}">Cancelar e voltar para a lista</a>
+
+{% endblock content %}

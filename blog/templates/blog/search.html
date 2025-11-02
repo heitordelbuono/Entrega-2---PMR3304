@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Resultados para "{{ search_term }}"
+{% endblock title %}
+
+{% block content %}
+  <h1>Resultados da busca por: "{{ search_term }}"</h1>
+  
+  <hr>
+
+  <section>
+    {% for post in post_list %}
+    <article>
+        <a href="{% url 'post_detail' post.pk %}">
+            <h2>{{ post.titulo }}</h2>
+        </a>
+        <p>Postado em: {{ post.data_postagem|date:"d/m/Y" }}</p>
+    </article>
+    <hr>
+    
+    {% empty %}
+        <p>Nenhum post encontrado com este termo.</p>
+        <p>Tente buscar por outras palavras.</p>
+    {% endfor %}
+  </section>
+
+  <br>
+  <a href="{% url 'index' %}">Voltar para a Home</a>
+
+{% endblock content %}

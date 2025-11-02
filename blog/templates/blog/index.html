@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+{% extends 'base.html' %}
+
+{% block title %}
+Página Inicial
+{% endblock title %}
+
+{% block content %}
+<h1><i>Férias, cadê você?!</i></h1>
+<p>A Página para quem está cansado...</p>
+<form action="{% url 'search_post' %}" method="GET">
+        
+        <input type="text" name="query" placeholder="Buscar posts...">
+        
+        <button type="submit">Buscar</button>
+</form>
+<hr>
+<p>
+    <a href="{% url 'post_create' %}">Criar Novo Post</a>
+</p>
+<br>
+<a href="{% url 'post_list' %}">Ver todos os posts</a>
+<section>
+    {% for post in post_list %}
+    <article>
+        <a href="{% url 'blog:detail' post.id %}">
+        </a>
+        <p>{{ post.titulo }} ({{ post.data_postagem }})</p>
+    </article>
+    {% endfor %}
+</section>
+{% endblock content %}
