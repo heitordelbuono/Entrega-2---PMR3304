@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Confirmar Deleção
+{% endblock title %}
+
+{% block content %}
+  <h1>Confirmar Remoção</h1>
+  <p>Você tem certeza que quer deletar a postagem: <strong>"{{ post.titulo }}"</strong>?</p>
+  <p>A postagem não poderá ser recuperada.</p>
+
+  <form method="POST">
+    {% csrf_token %}
+    
+    <button type="submit">Sim, deletar</button>
+    
+    <a href="{% url 'post_detail' post.pk %}">Cancelar</a>
+  </form>
+
+{% endblock content %}

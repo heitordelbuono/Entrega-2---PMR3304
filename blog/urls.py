@@ -5,10 +5,10 @@ from . import views
 urlpatterns = [
     path('about/', views.about, name='about'),
     path('', views.index, name='index'),
-    path('posts/', views.post_list, name='post_list'),
-    path('posts/<int:pk>/', views.post_detail, name='post_detail'),
-    path('posts/novo/', views.post_create, name='post_create'),
-    path('posts/<int:pk>/editar/', views.post_update, name='post_update'),
-    path('posts/<int:pk>/deletar/', views.post_delete, name='post_delete'),
+    path('posts/', views.PostListView.as_view(), name='post_list'),
+    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('posts/novo/', views.PostCreateView.as_view(), name='post_create'),
+    path('posts/<int:pk>/editar/', views.PostUpdateView.as_view(), name='post_update'),
+    path('posts/<int:pk>/deletar/', views.PostDeleteView.as_view(), name='post_delete'),
     path('search/', views.search_post, name='search_post'),
 ]
