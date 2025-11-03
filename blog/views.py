@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
+from .forms import PostForm
 
 # Create your views here.
 
@@ -24,25 +25,33 @@ def post_detail(request, pk):
 
 def post_create(request):
     if request.method == 'POST':
-        novo_titulo = request.POST.get('titulo')
-        novo_conteudo = request.POST.get('conteudo')
-        post = Post.objects.create(
-            titulo=novo_titulo,
-            conteudo=novo_conteudo
-        )
-        return redirect('post_list') 
-    
-    return render(request, 'blog/post_form.html')
+        form = PostForm(request.POST) 
+        
+        if form.is_valid():
+            form.save() 
+            return redirect('post_list')
+    else:
+        form = PostForm() 
+
+    contexto = {'form': form}
+    return render(request, 'blog/post_form.html', contexto)
 
 def post_update(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post, pk=pk) 
+
     if request.method == 'POST':
-        post.titulo = request.POST.get('titulo')
-        post.conteudo = request.POST.get('conteudo')
-        post.save()
-        return redirect('post_detail', pk=post.pk)
+        form = PostForm(request.POST, instance=post)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = PostForm(instance=post) 
     
-    contexto = {'post': post}
+    contexto = {
+        'form': form,
+        'post': post 
+    }
     return render(request, 'blog/post_form.html', contexto)
 
 def post_delete(request, pk):

@@ -16,27 +16,18 @@
   {% endif %}
 
   <form method="POST" action="">
-    
     {% csrf_token %}
     
-    <div>
-      <label for="titulo">Título:</label><br>
-      <input type"text" id="titulo" name="titulo" value="{{ post.titulo|default:'' }}" style="width: 50%;">
-    </div>
-    
-    <br>
-    
-    <div>
-      <label for="conteudo">Conteúdo:</label><br>
-      <textarea id="conteudo" name="conteudo" rows="10" style="width: 80%;">{{ post.conteudo|default:'' }}</textarea>
-    </div>
-    
-    <br>
+    {{ form.as_p }}  <br>
     
     <button type="submit">Salvar Post</button>
   </form>
 
   <br>
-  <a href="{% url 'post_list' %}">Cancelar e voltar para a lista</a>
+  {% if post %}
+    <a href="{% url 'post_detail' post.pk %}">Cancelar</a>
+  {% else %}
+    <a href="{% url 'post_list' %}">Cancelar</a>
+  {% endif %}
 
 {% endblock content %}
