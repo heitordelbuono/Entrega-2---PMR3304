@@ -23,4 +23,25 @@
     <br><br>
     <a href="{% url 'post_list' %}">Voltar para a lista</a>
 
+    <hr>
+
+    <h2>Comentários</h2>
+
+    <a href="{% url 'add_comment' post.pk %}">Adicionar um comentário</a>
+    <br><br>
+
+    {% for comment in post.comments.all %}
+        <article>
+            <p>
+                <strong>{{ comment.autor.username }}</strong>
+                <small>em {{ comment.data_postagem|date:"d/m/Y H:i" }}</small>
+            </p>
+            <p>{{ comment.texto|linebreaksbr}}</p>
+        </article>
+        <hr>
+    {% empty %}
+        <p>Sem comentários</p>
+    {% endfor %}
+
+
 {% endblock content %}

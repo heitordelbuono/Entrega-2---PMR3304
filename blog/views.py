@@ -1,11 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
-from .forms import PostForm
-
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 from django.urls import reverse_lazy 
-
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
@@ -64,3 +63,25 @@ def search_post(request):
         post_list = Post.objects.filter(titulo__icontains=search_term)
         context = {"post_list": post_list}
     return render(request, 'blog/search.html', context)
+
+@login_required
+def add_comment(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.post = post
+            comment.autor = request.user
+            comment.save()
+            return redirect('post_detail', pk=post.pk) 
+    
+    else:
+        form = CommentForm()
+    
+    contexto = {
+        'form': form,
+        'post': post
+    }
+    return render(request, 'blog/add_comment.html', contexto) 
