@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Todas as Categorias
+{% endblock title %}
+
+{% block content %}
+  <h1>Todas as Categorias</h1>
+  <hr>
+  <ul>
+    {% for category in category_list %}
+      <li>
+        <h3>
+          <a href="{% url 'category_detail' category.pk %}">{{ category.nome }}</a>
+        </h3>
+        {% if category.descricao %}
+          <p>{{ category.descricao }}</p>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>Nenhuma categoria encontrada. (Crie-as no /admin/)</li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post, Comment
+from .models import Post, Comment, Category
 from .forms import PostForm, CommentForm
 from django.urls import reverse_lazy 
 from django.views.generic import ListView, DetailView
@@ -56,6 +56,15 @@ class PostDeleteView(DeleteView):
 
     context_object_name = 'post'
 
+class CategoryListView(ListView):
+    model=Category
+    template_name='blog/category_list.html'
+    context_object_name='category_list'
+
+class CategoryDetailView(DetailView):
+    model=Category
+    template_name='blog/category_detail.html'
+    context_object_name='category'
 def search_post(request):
     context = {}
     if request.GET.get('query', False):
@@ -63,6 +72,7 @@ def search_post(request):
         post_list = Post.objects.filter(titulo__icontains=search_term)
         context = {"post_list": post_list}
     return render(request, 'blog/search.html', context)
+
 
 @login_required
 def add_comment(request, pk):
@@ -85,3 +95,4 @@ def add_comment(request, pk):
         'post': post
     }
     return render(request, 'blog/add_comment.html', contexto) 
+
