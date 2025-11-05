@@ -13,7 +13,7 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural="Categories"
-        
+
 class Post(models.Model):
     titulo = models.CharField(max_length=200)
     conteudo = models.TextField() 
@@ -33,5 +33,5 @@ class Comment(models.Model):
         ordering = ['-data_postagem']
 
     def __str__(self):
-        return f"Comentário de {self.autor} em '{self.titulo}'"
+        return f"Comentário de {self.autor} em '{self.post.titulo}'"
 
